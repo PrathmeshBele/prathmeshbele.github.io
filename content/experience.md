@@ -1,12 +1,10 @@
 ---
 title: 'Experience'
-date: 2023-10-24
+date: 2024-05-19
 type: landing
 
 design:
   spacing: '5rem'
-
-# Note: `username` refers to the user's folder name in `content/authors/`
 
 # Page sections
 sections:
@@ -20,14 +18,10 @@ sections:
       is_education_first: false
   - block: resume-skills
     content:
-      title: Skills & Hobbies
+      title: Technical Skills
       username: me
   - block: resume-awards
     content:
-      title: Awards
-      username: me
-  - block: resume-languages
-    content:
-      title: Languages
+      title: Honors & Achievements
       username: me
 ---
