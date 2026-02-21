@@ -7,7 +7,7 @@ authors:
   - Ankit Jha
   - Gemma Roig
   - Biplab Banerjee
-date: '2024-01-01T00:00:00Z'
+date: '2024-01-04T00:00:00Z'
 publication_types: ['paper-conference']
 publication: In *IEEE/CVF Winter Conference on Applications of Computer Vision (WACV'24)*
 abstract: ''
