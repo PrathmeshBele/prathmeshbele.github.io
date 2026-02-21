@@ -80,3 +80,22 @@ skills:
         level: 4
       - label: Jax/Flax
         level: 4
+
+awards:
+  - title: Pre-Doctoral Researcher Program
+    awarder: Google
+    date: "2024-01-01"
+    summary: Among 15, from 18,000+ applicants, selected for Google's Pre-Doctoral Researcher Program.
+  - title: Amazon Machine Learning Summer School
+    awarder: Amazon
+    date: "2022-01-01"
+    summary: Selected among the Top 3000 students nationwide.
+  - title: INSPIRE Scholarship
+    awarder: Department of Science and Technology
+    date: "2018-01-01"
+    summary: Awarded for ranking in the Top 1% of the Maharashtra Board Class 12th Examinations.
+  - title: JEE Advanced & Main High Percentile
+    awarder: Joint Entrance Examination
+    date: "2018-01-01"
+    summary: Secured 99.32 Percentile in JEE Main (1.5M entrants) and 98.75 Percentile in JEE Advanced (0.2M entrants).
+        
