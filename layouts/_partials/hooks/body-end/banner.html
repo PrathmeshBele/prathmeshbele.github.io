@@ -1,0 +1,25 @@
+<style>
+  .global-construction-banner {
+    position: fixed;
+    /* Placing it near the bottom center so it's highly visible but doesn't block reading */
+    bottom: 5%; 
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ea580c; /* Highly visible orange */
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-family: system-ui, sans-serif;
+    z-index: 99999; /* Ensures it stays on top of all other elements */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    white-space: nowrap;
+    /* 'pointer-events: none' allows your mouse to click 'through' the banner so it doesn't break your site's links */
+    pointer-events: none; 
+  }
+</style>
+
+<div class="global-construction-banner">
+  🚧 Work in Progress: Pardon the dust while I update my portfolio!
+</div>
