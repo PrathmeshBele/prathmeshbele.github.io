@@ -8,6 +8,17 @@ design:
   spacing: '6rem'
 
 sections:
+# --- ADDED: Under Construction Banner ---
+  - block: markdown
+    content:
+      text: |-
+        > [!WARNING]
+        > **Work in Progress:** This website is currently under construction. Pardon the dust while I update my portfolio!
+    design:
+      columns: '1'
+      spacing:
+        padding: ['3rem', '0', '0', '0']
+  # ----------------------------------------
   - block: resume-biography-3
     content:
       username: me
