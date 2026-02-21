@@ -10,7 +10,7 @@ authors:
   - et al.
 date: '2023-01-01T00:00:00Z'
 publication_types: ['patent']
-publication: *Intellectual Property of India, Reference No. 202341087789*
+publication: '*Intellectual Property of India, Reference No. 202341087789*'
 abstract: ''
 featured: true
 ---
