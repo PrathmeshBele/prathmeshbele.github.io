@@ -46,13 +46,13 @@ social:
     link: https://twitter.com/B_Prathmesh_
   - icon: google-scholar # Alternatively, use `graduation-cap` icon
     icon_pack: ai
-    link: https://scholar.google.com/citations?user=your-scholar-id # UPDATE THIS LINK
+    link: [https://scholar.google.com/citations?user=your-scholar-id](https://scholar.google.com/citations?user=Hn0grRYAAAAJ&hl=en) # UPDATE THIS LINK
   - icon: github
     icon_pack: fab
     link: https://github.com/PrathmeshBele
   - icon: linkedin
     icon_pack: fab
-    link: https://www.linkedin.com/in/prathmeshbele/ # UPDATE IF DIFFERENT
+    link: https://www.linkedin.com/in/prathmesh-bele   # UPDATE IF DIFFERENT
 ---
 
 ## About Me
