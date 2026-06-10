@@ -15,13 +15,13 @@ hugoblox:
     # Site name - shown in navbar, footer, copyright, and browser title by default
     name: "Prathmesh Bele"
     # Legal entity for copyright notices (defaults to name if not set)
-    organization: "Google DeepMind"
+    organization: ""
     # Schema.org type for structured data
     type: person                        # person | organization | local_business
     # Short tagline displayed on your site
     tagline: ""
     # Site meta description for search engines and social sharing
-    description: "Pre-Doctoral Researcher at Google DeepMind focusing on Deep Learning, Computer Vision, and Generative AI."
+    description: "Incoming PhD Student at School of Computing, National University of Singapore focusing on Deep Learning, Computer Vision, and Generative AI."
     # Social accounts (used for meta tags like Twitter Cards)
     social:
       twitter: "B_Prathmesh_"              # Twitter/X handle for Twitter Cards (without @)
@@ -116,9 +116,9 @@ hugoblox:
   # ────────────────────────────────────────────────────────────────────────────
   copyright:
     # Copyright notice - supports {year}, {name}, {license} placeholders
-    notice: "© {year} {name}. This work is licensed under {license}"
+    notice: "© {year} {name}"
     license:
-      type: cc                          # cc | custom
+      type: ""
       allow_derivatives: false
       share_alike: true
       allow_commercial: false

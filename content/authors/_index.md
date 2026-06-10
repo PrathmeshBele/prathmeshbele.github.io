@@ -6,12 +6,12 @@ title: Prathmesh Bele
 name_pronunciation: ''
 
 # Role/position/tagline
-role: Pre-Doctoral Researcher
+role: Incoming PhD Student
 
 # Organizations/Affiliations
 organizations:
-  - name: Google DeepMind
-    url: https://deepmind.google/
+  - name: School of Computing, National University of Singapore
+    url: https://comp.nus.edu.sg/
 
 # Short bio (displayed in user profile at end of posts)
 bio: My research interests include Deep Learning, Computer Vision, Generative AI, and Multimodal Learning.
@@ -26,6 +26,9 @@ interests:
 # Education
 education:
   courses:
+    - course: PhD in Computer Science
+      institution: National University of Singapore
+      year: Starting August 2026
     - course: Master of Technology in Artificial Intelligence and Data Science
       institution: Indian Institute of Technology Bombay
       year: 2023
@@ -57,6 +60,6 @@ social:
 
 ## About Me
 
-[cite_start]I am currently a Pre-Doctoral Researcher at Google DeepMind in Bangalore, India, advised by Dr. Vaibhav Rajan, Prof. Sara Beery, and Alok Talekar[cite: 1, 2, 16]. [cite_start]My work focuses on leveraging sparse Street View via generative cross-view fusion to enhance satellite crop monitoring, aiming to impact millions of farmers by enabling optimized resource allocation[cite: 16]. 
+I am an incoming PhD student in the School of Computing at the National University of Singapore (NUS), starting in August 2026. Previously, I was a Pre-Doctoral Researcher at Google DeepMind in Bangalore, India, advised by Dr. Vaibhav Rajan, Prof. Sara Beery, and Alok Talekar. My work focused on leveraging sparse Street View via generative cross-view fusion to enhance satellite crop monitoring, aiming to impact millions of farmers by enabling optimized resource allocation.
 
-[cite_start]Previously, I was a Post Graduate Engineer Trainee at Mercedes-Benz Research and Development India, where I developed scalable mapping solutions using complex multi-sensor data[cite: 16]. [cite_start]I received my Interdisciplinary Dual Degree (M.Tech in AI & Data Science and B.Tech in Mechanical Engineering) from the Indian Institute of Technology Bombay, where I was advised by Prof. Biplab Banerjee and Prof. Gemma Roig on open-domain generalization[cite: 10, 11, 14, 16].
+Previously, I was a Post Graduate Engineer Trainee at Mercedes-Benz Research and Development India, where I developed scalable mapping solutions using complex multi-sensor data. I received my Interdisciplinary Dual Degree (M.Tech in AI & Data Science and B.Tech in Mechanical Engineering) from the Indian Institute of Technology Bombay, where I was advised by Prof. Biplab Banerjee and Prof. Gemma Roig on open-domain generalization.

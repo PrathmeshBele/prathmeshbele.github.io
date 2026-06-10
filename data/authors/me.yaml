@@ -8,12 +8,12 @@ name:
 pronouns: he/him
 status:
   icon: "💻"
-role: Pre-Doctoral Researcher
+role: Incoming PhD Student
 bio: |
-  I am currently a Pre-Doctoral Researcher at Google DeepMind in Bangalore, India. My work focuses on leveraging sparse Street View via generative cross-view fusion to enhance satellite crop monitoring.
+  I am an incoming PhD student in the School of Computing at the National University of Singapore (NUS), starting in August 2026. Previously, I was a Pre-Doctoral Researcher at Google DeepMind in Bangalore, India, where my work focused on leveraging sparse Street View via generative cross-view fusion to enhance satellite crop monitoring.
 affiliations:
-  - name: Google DeepMind
-    url: https://deepmind.google/
+  - name: School of Computing, National University of Singapore
+    url: https://comp.nus.edu.sg/
 
 links:
   - icon: at-symbol
@@ -33,10 +33,16 @@ interests:
   - Multimodal Learning
 
 education:
+  - degree: PhD in Computer Science
+    institution: National University of Singapore
+    start: ""
+    end: "Starting August 2026"
+    summary: |
+      School of Computing
   - degree: M.Tech in Artificial Intelligence and Data Science
     institution: Indian Institute of Technology Bombay
-    start: 2018-07-01
-    end: 2023-08-31
+    start: "Jul 2018"
+    end: "Aug 2023"
     summary: |
       Achieved a CPI of 9.94/10 towards completion of Master of Technology.
     button:
@@ -45,41 +51,37 @@ education:
       icon: hero/arrow-down-tray
   - degree: B.Tech in Mechanical Engineering (Minor in CSE)
     institution: Indian Institute of Technology Bombay
-    start: 2018-07-01
-    end: 2023-08-31
+    start: "Jul 2018"
+    end: "Aug 2023"
 
 experience:
   - role: Pre-Doctoral Researcher
     org: Google DeepMind
     start: 2024-06-01
+    end: 2026-06-30
     summary: |
-      Leveraging sparse Street View via generative cross-view fusion to enhance satellite crop monitoring. Orchestrating curation of 1M+ spatiotemporal crop data points across India.
+      Leveraged sparse Street View via generative cross-view fusion to enhance satellite crop monitoring. Orchestrated curation of 1M+ spatiotemporal crop data points across India, aiming for global scale. Impacted millions of farmers via core AI research enabling government optimizing resource allocation.
   - role: Post Graduate Engineer Trainee
     org: Mercedes-Benz Research and Development India
     start: 2023-08-01
     end: 2024-04-30
     summary: |
-      Harnessed complex multi-sensor data with the Perception team to drive scalable mapping solutions. Filed a patent for a novel GNN based approach.
+      Harnessed complex multi-sensor data with the Perception team to drive scalable mapping solutions. Filed a patent for a novel GNN based approach achieving performance parity with production baselines.
   - role: Postgraduate Researcher
     org: IIT Bombay
     start: 2021-12-01
     end: 2023-04-30
     summary: |
-      Architected resilient models capable of generalizing from single sources under volatile domain shifts. Established novel invariant feature mechanisms [WACV'24].
+      Architected resilient models capable of generalizing from single sources under volatile domain shifts. Established novel invariant feature mechanisms, culminating in a top-tier publication [WACV'24].
 
 skills:
   - name: Technical Skills
     items:
       - label: Python
-        level: 5
       - label: C++
-        level: 4
       - label: PyTorch
-        level: 5
       - label: TensorFlow
-        level: 4
       - label: Jax/Flax
-        level: 4
 
 awards:
   - title: Pre-Doctoral Researcher Program
