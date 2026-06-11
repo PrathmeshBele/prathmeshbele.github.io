@@ -1,0 +1,82 @@
+{{ define "main" }}
+<div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
+  <div class="text-center mb-16">
+    <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+      Publications & Patents
+    </h1>
+    <p class="mt-4 text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+      Research papers, conference publications, and patented innovations in machine learning, computer vision, and graph neural networks.
+    </p>
+  </div>
+
+  <div class="space-y-8">
+    {{ range .Pages.ByDate.Reverse }}
+    <div class="group relative bg-white dark:bg-gray-900/50 rounded-2xl border border-gray-200/50 dark:border-white/10 p-6 md:p-8 shadow-sm hover:shadow-md hover:border-indigo-500/30 dark:hover:border-indigo-400/30 transition-all duration-300 flex flex-col md:flex-row gap-6">
+      
+      <!-- Right/Main content area -->
+      <div class="flex-1 space-y-4">
+        <!-- Tag and Date -->
+        <div class="flex flex-wrap items-center gap-3">
+          {{ range .Params.publication_types }}
+            {{ if eq . "paper-conference" }}
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-900/50">
+                Conference Paper
+              </span>
+            {{ else if eq . "patent" }}
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/50">
+                Patent
+              </span>
+            {{ else }}
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
+                {{ . | humanize }}
+              </span>
+            {{ end }}
+          {{ end }}
+          
+          <span class="text-sm text-gray-400 dark:text-gray-500 font-medium">
+            {{ .Date.Format "January 2006" }}
+          </span>
+        </div>
+
+        <!-- Title -->
+        <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-200">
+          {{ if .Params.external_link }}
+            <a href="{{ .Params.external_link }}" target="_blank" rel="noopener noreferrer" class="hover:underline inline-flex items-center gap-2">
+              {{ .Title }}
+              <svg class="w-5 h-5 shrink-0 text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+              </svg>
+            </a>
+          {{ else }}
+            {{ .Title }}
+          {{ end }}
+        </h3>
+
+        <!-- Authors -->
+        <p class="text-gray-600 dark:text-gray-300 text-base leading-relaxed">
+          {{ $authorCount := len .Params.authors }}
+          {{ range $index, $author := .Params.authors }}
+            {{ $isMe := or (eq $author "Prathmesh Bele") (eq $author "Prathmesh Bele*") }}
+            <span class="{{ if $isMe }}font-bold text-gray-900 dark:text-white{{ else }}text-gray-500 dark:text-gray-400{{ end }}">{{ $author }}</span>{{ if lt (add $index 1) $authorCount }}, {{ end }}
+          {{ end }}
+        </p>
+
+        <!-- Publication Venue -->
+        {{ if .Params.publication }}
+        <p class="text-sm text-gray-500 dark:text-gray-400 italic font-medium bg-gray-50 dark:bg-gray-800/40 px-3 py-2 rounded-lg inline-block">
+          {{ .Params.publication | markdownify }}
+        </p>
+        {{ end }}
+
+        <!-- Description/Abstract -->
+        {{ if .Content }}
+        <div class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed border-l-2 border-gray-200 dark:border-gray-800 pl-4 py-1">
+          {{ .Content }}
+        </div>
+        {{ end }}
+      </div>
+    </div>
+    {{ end }}
+  </div>
+</div>
+{{ end }}
