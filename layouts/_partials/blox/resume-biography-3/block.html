@@ -436,14 +436,7 @@
                     {{ $degree }}
                   </p>
                   {{ end }}
-                  {{ if $year }}
-                    <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">{{ $year }}</p>
-                  {{ else if $start }}
-                    <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">
-                      {{ $start }}
-                      {{ if $end }}<br>{{ $end }}{{ end }}
-                    </p>
-                  {{ end }}
+                  {{/* Date display removed from Bio page as requested */}}
                   {{ if $institution }}
                     <p class="text-gray-700 dark:text-gray-300 text-base">{{ $institution }}</p>
                   {{ end }}
