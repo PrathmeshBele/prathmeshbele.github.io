@@ -6,7 +6,7 @@ title: Prathmesh Bele
 name_pronunciation: ''
 
 # Role/position/tagline
-role: Incoming PhD Student
+role: Computer Science PhD Student
 
 # Organizations/Affiliations
 organizations:
@@ -28,7 +28,7 @@ education:
   courses:
     - course: PhD in Computer Science
       institution: National University of Singapore
-      year: Starting August 2026
+      year: Aug 2026 - Present
     - course: Master of Technology in Artificial Intelligence and Data Science
       institution: Indian Institute of Technology Bombay
       year: 2023
@@ -60,6 +60,6 @@ social:
 
 ## About Me
 
-I am an incoming PhD student in the School of Computing at the National University of Singapore (NUS), starting in August 2026. Previously, I was a Pre-Doctoral Researcher at Google DeepMind in Bangalore, India, advised by Dr. Vaibhav Rajan, Prof. Sara Beery, and Alok Talekar. My work focused on leveraging sparse Street View via generative cross-view fusion to enhance satellite crop monitoring, aiming to impact millions of farmers by enabling optimized resource allocation.
+I am a Computer Science PhD student in the School of Computing at the National University of Singapore (NUS). Previously, I was a Pre-Doctoral Researcher at Google DeepMind in Bangalore, India, advised by Dr. Vaibhav Rajan, Prof. Sara Beery, and Alok Talekar. My work focused on leveraging sparse Street View via generative cross-view fusion to enhance satellite crop monitoring, aiming to impact millions of farmers by enabling optimized resource allocation.
 
 Previously, I was a Post Graduate Engineer Trainee at Mercedes-Benz Research and Development India, where I developed scalable mapping solutions using complex multi-sensor data. I received my Interdisciplinary Dual Degree (M.Tech in AI & Data Science and B.Tech in Mechanical Engineering) from the Indian Institute of Technology Bombay, where I was advised by Prof. Biplab Banerjee and Prof. Gemma Roig on open-domain generalization.

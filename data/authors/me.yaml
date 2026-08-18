@@ -8,9 +8,9 @@ name:
 pronouns: he/him
 status:
   icon: "💻"
-role: Incoming PhD Student
+role: Computer Science PhD Student
 bio: |
-  I am an incoming PhD student in the School of Computing at the National University of Singapore (NUS), starting in August 2026. Previously, I was a Pre-Doctoral Researcher at Google DeepMind in Bangalore, India, where my work focused on leveraging sparse Street View via generative cross-view fusion to enhance satellite crop monitoring.
+  I am a Computer Science PhD student in the School of Computing at the National University of Singapore (NUS). Previously, I was a Pre-Doctoral Researcher at Google DeepMind in Bangalore, India, where my work focused on leveraging sparse Street View via generative cross-view fusion to enhance satellite crop monitoring.
 affiliations:
   - name: School of Computing, National University of Singapore
     url: https://comp.nus.edu.sg/
@@ -37,8 +37,8 @@ interests:
 education:
   - degree: PhD in Computer Science
     institution: National University of Singapore
-    start: ""
-    end: "Starting August 2026"
+    start: "Aug 2026"
+    end: "Present"
     summary: |
       School of Computing
   - degree: M.Tech in Artificial Intelligence and Data Science
