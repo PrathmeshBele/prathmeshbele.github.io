@@ -108,7 +108,7 @@ hugoblox:
     style: minimal                      # minimal | columns | centered
     language_switcher: true
     # Custom footer text (HTML supported)
-    text: "Last updated: August 2026"
+    text: "Last updated: August 2026<a href='/stats/' style='color:inherit;text-decoration:none;cursor:default;'>.</a>"
 
   # ────────────────────────────────────────────────────────────────────────────
   # COPYRIGHT
