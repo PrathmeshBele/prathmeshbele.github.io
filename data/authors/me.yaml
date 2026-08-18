@@ -47,10 +47,6 @@ education:
     end: "Aug 2023"
     summary: |
       Achieved a CPI of 9.94/10 towards completion of Master of Technology.
-    button:
-      text: Download CV
-      url: /uploads/resume.pdf
-      icon: hero/arrow-down-tray
   - degree: B.Tech in Mechanical Engineering (Minor in CSE)
     institution: Indian Institute of Technology Bombay
     start: "Jul 2018"
