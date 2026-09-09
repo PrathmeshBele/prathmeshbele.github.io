@@ -53,6 +53,12 @@ education:
     end: "Aug 2023"
 
 experience:
+  - role: Doctoral Researcher
+    org: National University of Singapore
+    start: 2026-08-01
+    end: Present
+    summary: |
+      School of Computing
   - role: Pre-Doctoral Researcher
     org: Google DeepMind
     start: 2024-06-01
@@ -98,4 +104,3 @@ awards:
     awarder: Joint Entrance Examination
     date: "2018-01-01"
     summary: Secured 99.32 Percentile in JEE Main (1.5M entrants) and 98.75 Percentile in JEE Advanced (0.2M entrants).
-        
