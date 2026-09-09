@@ -128,9 +128,9 @@ A compilation of my research and engineering projects in Deep Learning, Computer
 </div>
 
 <div class="mt-20 pt-8 border-t border-gray-200 dark:border-white/10 text-center">
-<p class="text-xs text-gray-400 dark:text-gray-500">
+<p class="text-xs text-gray-500 dark:text-gray-400 italic">
 *Note: Visualizations are AI-generated representations and may not completely align with the actual project outcomes.*
 </p>
 </div>
 
-</div>ß
+</div>
