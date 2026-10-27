@@ -10,14 +10,14 @@ status:
   icon: "💻"
 role: Computer Science PhD Student
 bio: |
-  I am a Computer Science PhD student in the School of Computing at the National University of Singapore (NUS). Previously, I was a Pre-Doctoral Researcher at Google DeepMind in Bangalore, India, where my work focused on leveraging sparse Street View via generative cross-view fusion to enhance satellite crop monitoring.
+  I am a Computer Science Ph.D. student at the National University of Singapore, researching Deep Learning, Computer Vision, Generative AI, and Multimodal Learning. Previously, I was a Pre-Doctoral Researcher at Google DeepMind, where I focused on multi-sensor cross-view panoramic synthesis and generative fusion using diffusion models. Prior to DeepMind, I earned an Interdisciplinary Dual Degree (B.Tech in Mechanical Engineering with a CS Minor, and M.Tech in AI & Data Science) from IIT Bombay. Following graduation, I have worked at Mercedes-Benz Research and Development India on multi-sensor perception and mapping systems.
 affiliations:
   - name: School of Computing, National University of Singapore
     url: https://comp.nus.edu.sg/
 
 links:
   - icon: at-symbol
-    url: mailto:prathmeshbele.iitb@gmail.com
+    url: mailto:prathmeshbele@u.nus.edu
     label: E-mail Me
   - icon: brands/github
     url: https://github.com/PrathmeshBele

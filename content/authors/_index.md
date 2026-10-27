@@ -43,7 +43,7 @@ education:
 social:
   - icon: envelope
     icon_pack: fas
-    link: 'mailto:prathmeshbele.iitb@gmail.com'
+    link: 'mailto:prathmeshbele@u.nus.edu'
   - icon: twitter
     icon_pack: fab
     link: https://twitter.com/B_Prathmesh_
@@ -60,6 +60,4 @@ social:
 
 ## About Me
 
-I am a Computer Science PhD student in the School of Computing at the National University of Singapore (NUS). Previously, I was a Pre-Doctoral Researcher at Google DeepMind in Bangalore, India, advised by Dr. Vaibhav Rajan, Prof. Sara Beery, and Alok Talekar. My work focused on leveraging sparse Street View via generative cross-view fusion to enhance satellite crop monitoring, aiming to impact millions of farmers by enabling optimized resource allocation.
-
-Previously, I was a Post Graduate Engineer Trainee at Mercedes-Benz Research and Development India, where I developed scalable mapping solutions using complex multi-sensor data. I received my Interdisciplinary Dual Degree (M.Tech in AI & Data Science and B.Tech in Mechanical Engineering) from the Indian Institute of Technology Bombay, where I was advised by Prof. Biplab Banerjee and Prof. Gemma Roig on open-domain generalization.
+I am a Computer Science Ph.D. student at the National University of Singapore, researching Deep Learning, Computer Vision, Generative AI, and Multimodal Learning. Previously, I was a Pre-Doctoral Researcher at Google DeepMind, where I focused on multi-sensor cross-view panoramic synthesis and generative fusion using diffusion models. Prior to DeepMind, I earned an Interdisciplinary Dual Degree (B.Tech in Mechanical Engineering with a CS Minor, and M.Tech in AI & Data Science) from IIT Bombay. Following graduation, I have worked at Mercedes-Benz Research and Development India on multi-sensor perception and mapping systems.
