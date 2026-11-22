@@ -115,10 +115,13 @@ few-step failure is a property of the average step itself, confirmed
 with exact oracles on all three datasets, and it is the dominant error
 at low budgets. The readout failure can be seen as the same kind of
 mistake between the two data types. In both, a single best guess is used
-where the uncertainty should be passed on. Whether one mechanism
-explains both is a hypothesis, not an established result. C does not
-test changing the forward noise process; its main errors do not call for
-one.</p>
+where the uncertainty should be passed on. The literature review (below)
+shows that both mechanisms are known within a single data type, and that
+the framing holds only if two cases are kept apart: genuine posterior
+width (the average step) and off-distribution generated inputs (the
+readout). Whether one explains the other is a hypothesis D tests
+directly. C does not test changing the forward noise process; its main
+errors do not call for one.</p>
 <table>
 <thead>
 <tr>
@@ -151,7 +154,8 @@ exact-for-bank oracles</td>
 <td>D · trajectories and decisions</td>
 <td>Can we preserve decision probabilities and their downstream effects
 over time?</td>
-<td>Data generator built, tested and audited; model experiments start
+<td>Data generator built, tested and audited; plan completed after the
+literature review; oracle-only experiments and model experiments start
 next</td>
 </tr>
 </tbody>
@@ -1357,6 +1361,84 @@ never reads edges off its own imprecise shape.</li>
 were generated, and the noise-level corrections are heuristics, not
 models of the error. Full results, verdicts and limitations are in the
 <a href="DATASET_C_MILESTONE_REPORT.md">C milestone report</a>.</p>
+<h2 id="what-the-literature-review-changed">What the literature review
+changed</h2>
+<p>Two deep literature reviews (22 November 2026; <a href="claude_deep_research.md">Claude</a>, <a href="Neon_deep_research.md">Neon</a>) placed A–C against prior work.
+They agree on the main points.</p>
+<table>
+<thead>
+<tr>
+<th>Our finding</th>
+<th>What the literature says</th>
+<th>What stays open</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The average step loses spread at few steps (A, B, C)</td>
+<td><strong>Known theory.</strong> The optimal reverse covariance
+(Analytic-DPM, 2022) predicts it. With our schedule, a unit Gaussian
+keeps 0.436 / 0.774 / 0.872 / 0.931 of its variance at N = 4 / 16 / 32 /
+64 under a perfect average step, against B&#39;s 0.430 / 0.774 / 0.880 /
+0.940. Adding the missing covariance term keeps 1.000 at every N</td>
+<td>Few-step steps that keep validity when the posterior is branched or
+shaped by symmetry, over coupled label–value states</td>
+</tr>
+<tr>
+<td>Independent label and value draws break the pairing (A); column
+scores hide whole-row errors (B)</td>
+<td><strong>Known</strong> for purely discrete diffusion and for tabular
+evaluation</td>
+<td>A bound for coupled Gaussian × masked steps</td>
+</tr>
+<tr>
+<td>EMA without warm-up shrinks spread (A, B)</td>
+<td><strong>A known pitfall</strong> (EDM2); reviewers will read it as a
+configuration error</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Treating a generated value as exact makes small errors large
+(C)</td>
+<td><strong>Known within one data type:</strong> conditioning
+augmentation in cascaded diffusion, shifted timesteps, Diffusion
+Forcing</td>
+<td>The cross-modal version; a rule for the noise level; how it depends
+on decision sharpness; calibration of generated decisions</td>
+</tr>
+<tr>
+<td>Parallel best at low cost, graph-first best at high cost (C)</td>
+<td><strong>Not found</strong> in prior work</td>
+<td>A theory of which data type to generate first</td>
+</tr>
+<tr>
+<td>Exact-oracle benchmark for mixed data</td>
+<td><strong>Not found;</strong> precedents exist only for purely
+discrete or purely continuous models</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>One idea, two mechanisms.</strong> &quot;A single best guess is
+used where uncertainty should be passed on&quot; holds only if two cases are
+kept apart:</p>
+<ul>
+<li><strong>The average step:</strong> the step uses the mean where the
+posterior is genuinely broad. This happens even with a perfect
+denoiser.</li>
+<li><strong>Exact conditioning:</strong> a step treats a generated value
+as if it came from the data. If it did, exact conditioning would be
+correct. So this failure needs the generated value to be
+off-distribution.</li>
+</ul>
+<p>The two meet when an average-step history is the off-distribution
+input. D can test that link directly.</p>
+<p><strong>What this means for D.</strong> Neither review found prior
+work on D&#39;s core questions: decision calibration against exact
+probabilities, branch blending against exact likelihoods, the dependence
+on decision sharpness, and joint against step-by-step generation at
+matched cost. D is the most clearly new part of the programme. Its plan
+was revised accordingly (below).</p>
 <h2 id="dataset-d">Dataset D</h2>
 <h3 id="what-this-dataset-checks">What this dataset checks</h3>
 <p>D asks whether mixed generation preserves <strong>decision
@@ -1412,47 +1494,87 @@ an event, and the event changes the next motion. The central
 question:</p>
 <blockquote>
 <p><strong>When a sampler conditions on motion it generated itself, do
-small errors in that motion cause wrong decisions that build up over
-time, and does stating a calibrated noise level for the generated
-history prevent this, without losing diversity, validity or
-efficiency?</strong></p>
+errors in that motion cause wrong decisions that build up over time?
+Does stating a calibrated noise level for the generated history prevent
+this, and when?</strong></p>
 </blockquote>
 <p>Four questions, in order of priority:</p>
 <ol type="1">
-<li><strong>Generated history (from C).</strong> When a step-by-step
-sampler conditions on its own generated past, does the noise level it
-reports for that past matter? Does the answer depend on how sharply
-decisions depend on the motion?</li>
-<li><strong>Averaging futures (from A, B and C).</strong> After a
-decision there are two clearly different futures. Does the average step
-blend them into motion that belongs to neither?</li>
+<li><strong>Generated history (from C).</strong> When does the noise
+level a sampler reports for its own past matter, and by how much, as a
+function of decision sharpness and of how the past is wrong?</li>
+<li><strong>Averaging futures, and what fixes it.</strong> Does the
+average step blend the two futures after a decision? Does a correct
+spread fix it, or does the step have to pick a branch?</li>
 <li><strong>Decision probabilities.</strong> Does a model keep the right
-probability for each event, per event and per previous outcome, rather
-than becoming over-confident?</li>
-<li><strong>Cost.</strong> How do joint and step-by-step generation
-compare at the same number of network calls, over 2, 4 and 8
-events?</li>
+probability for each event, per event and per previous outcome?</li>
+<li><strong>Cost and order.</strong> How do joint, step-by-step and
+decisions-first generation compare at the same number of network calls,
+over 2, 4 and 8 events?</li>
 </ol>
+<p><strong>Generated history reaches the next step in two
+ways.</strong></p>
+<ul>
+<li><strong>The next decision.</strong> It depends on the last position.
+An error δ moves the decision&#39;s probit argument by δ/τ: 4δ at τ = 0.25,
+20δ at τ = 0.05.</li>
+<li><strong>The next motion.</strong> It starts from the last position
+and the velocity implied by the last two positions. An error δ in the
+final position alone moves the next block&#39;s mean path by up to about
+2.2δ, while the next block&#39;s first-step noise is only 0.03–0.05. τ does
+not control this channel.</li>
+</ul>
 <h3 id="how-the-experiments-will-work">How the experiments will
 work</h3>
 <p><strong>Model and samplers.</strong> One sequence Transformer,
 trained on a noise-time mixture that supports every sampler, generates
-the motion blocks and the events together. Three samplers are compared
-at matched network calls:</p>
+the motion blocks and the events together. Four samplers are compared at
+matched network calls:</p>
 <ul>
 <li><strong>joint</strong>, which updates the whole sequence at
 once;</li>
 <li><strong>block-by-block</strong>, which generates one motion block
-and its event, then conditions on them;</li>
-<li><strong>causal</strong>, which interleaves the two.</li>
+and its event (one call), then conditions on them;</li>
+<li><strong>causal</strong>, which interleaves the two;</li>
+<li><strong>decisions-first</strong>, which draws all events, then the
+motion given them.</li>
 </ul>
-<p><strong>Exact oracles.</strong> Because every probability in D is
-known, the perfect average predictor and the perfect sampler can be
-computed exactly by summing over the 2^H event sequences. As in C,
-nothing is trained until the perfect sampler, passed through the
-unchanged sampler code, reproduces the data (gate G0-D).</p>
+<p><strong>Exact oracles first.</strong> Every probability in D is
+known, so the perfect average predictor and the perfect sampler can be
+computed exactly, including a separate noise level for every block.
+Nothing is trained until the perfect sampler, passed through the
+unchanged sampler code, reproduces the data (gate G0-D). Four extra
+checks prove the oracle code exact. Several experiments run on the
+oracles alone, before any training:</p>
+<ul>
+<li><strong>sensitivity:</strong> how strongly each next step depends on
+errors in the history;</li>
+<li><strong>an oracle ladder:</strong> what each piece of the true
+posterior restores;</li>
+<li><strong>an order map:</strong> which sampler order wins at matched
+cost when every step is a perfect average;</li>
+<li><strong>the full noise-level design</strong> under perfect
+denoisers.</li>
+</ul>
+<p><strong>Why reporting a noise level can help in D, and when.</strong>
+Given the earlier past, the true probability of the next decision is
+Φ((μ − c)/√(τ² + v)), where v is how uncertain the next decision point
+is. Suppose a sampler&#39;s generated history has too little spread there:
+only a fraction r of v. Exact conditioning then makes decisions too
+confident. Reporting a noise level that adds back the missing (1 − r)v
+corrects the rate exactly. If the history already has the right spread
+(r = 1), or too much, no reported level helps. This gives three
+predictions:</p>
+<ul>
+<li><strong>When:</strong> only for under-spread history.</li>
+<li><strong>Which level:</strong> a rule with nothing to tune.</li>
+<li><strong>How much:</strong> a formula per τ.</li>
+</ul>
+<p>C could not separate these cases, because its readout relied on a
+fine fingerprint that D does not have.</p>
 <p><strong>Table D1. Planned experiments.</strong> Each changes one
-thing. Headline results use 3 training seeds × 3 evaluation seeds.</p>
+thing. Headline results use 3 training seeds × 3 evaluation seeds.
+<em>Oracle</em> means no training.</p>
 <table>
 <thead>
 <tr>
@@ -1467,32 +1589,58 @@ thing. Headline results use 3 training seeds × 3 evaluation seeds.</p>
 <td>E0-D</td>
 <td>Is the infrastructure sound, and how large should the model and
 budget be?</td>
-<td>Exact oracles, finite-sample floors, gate G0-D, large reference and
-holdout splits, GPU profile, short training pilot</td>
+<td>Exact oracles with per-block noise levels, floors for every setting,
+gate G0-D with four exactness checks, large reference and holdout
+splits, GPU profile, short pilot</td>
 <td style="text-align: right;">1–2 GPU-h</td>
 </tr>
 <tr>
+<td>E0-S</td>
+<td>How strongly does each next step depend on history errors?</td>
+<td><em>Oracle</em>: exact sensitivities, and the noise levels the rule
+would ask for</td>
+<td style="text-align: right;">CPU</td>
+</tr>
+<tr>
+<td>E1a</td>
+<td>Does the average step blend futures, and what removes the
+blend?</td>
+<td><em>Oracle</em> ladder, all samplers, N = 1 to 64</td>
+<td style="text-align: right;">&lt; 0.3 GPU-h</td>
+</tr>
+<tr>
 <td>E1-D</td>
-<td>Does the average step blend futures, and does the learned model add
-error beyond the perfect average predictor?</td>
-<td>Main setting (2 events); all samplers, N = 1 to 64; both oracles;
-raw and EMA weights</td>
+<td>Does the learned model add error beyond the perfect average
+predictor?</td>
+<td>Main setting (2 events); all samplers; raw and EMA weights</td>
 <td style="text-align: right;">~2 GPU-h</td>
 </tr>
 <tr>
-<td><strong>E3-D</strong></td>
-<td><strong>Which noise level should a sampler report for its generated
-history, and does it depend on decision sharpness?</strong></td>
-<td>Block-by-block and causal samplers report their past as exact or at
-a noise level tuned on held-out data, crossed with decision sharpness τ
-∈ {0.05, 0.1, 0.25}</td>
-<td style="text-align: right;">~2.5 GPU-h</td>
+<td>E3a</td>
+<td>When and how much does a reported noise level help?</td>
+<td><em>Oracle</em>: noise-level arms × τ ∈ {0.05, 0.1, 0.25}, history
+from the perfect average predictor or the perfect sampler</td>
+<td style="text-align: right;">&lt; 0.3 GPU-h</td>
+</tr>
+<tr>
+<td><strong>E3b</strong></td>
+<td><strong>The same for learned models</strong></td>
+<td><strong>Noise-level arms (below) × τ; history also swapped for
+oracle-generated history</strong></td>
+<td style="text-align: right;"><strong>~2.5 GPU-h</strong></td>
+</tr>
+<tr>
+<td>E2a</td>
+<td>Which sampler order wins at matched cost?</td>
+<td><em>Oracle</em> order map over budgets, τ and 2, 4, 8 events</td>
+<td style="text-align: right;">&lt; 0.3 GPU-h</td>
 </tr>
 <tr>
 <td>E2-D</td>
-<td>Joint against step-by-step at matched cost, as sequences get
-longer</td>
-<td>2, 4 and 8 events</td>
+<td>Joint against step-by-step and decisions-first at matched cost, as
+sequences get longer</td>
+<td>2, 4 and 8 events; plus exploratory remasking of decisions and
+rollouts beyond the trained length</td>
 <td style="text-align: right;">~3 GPU-h</td>
 </tr>
 <tr>
@@ -1510,77 +1658,144 @@ ambiguous?</td>
 <td style="text-align: right;">~2 GPU-h</td>
 </tr>
 <tr>
+<td>E6-D</td>
+<td>Does one final correction call help, and what spread does it
+cost?</td>
+<td>One call at a stated noise level against re-noise-and-refine, plus a
+low-noise accuracy probe</td>
+<td style="text-align: right;">sampling</td>
+</tr>
+<tr>
 <td>Null</td>
 <td>Does the model invent a dependence that is not there?</td>
 <td>Events have no effect on later motion; 1 seed</td>
 <td style="text-align: right;">~0.5 GPU-h</td>
 </tr>
+<tr>
+<td>E7-D, E8-D, A5</td>
+<td>Contingent or optional</td>
+<td>Lower process noise (if the motion channel matters); decision loss
+weight; a model without noise-level input</td>
+<td style="text-align: right;">up to 3 GPU-h</td>
+</tr>
 </tbody>
 </table>
-<p>These budgets are scaled from C. The E0-D profile sets the real
-budget before E1-D is submitted.</p>
-<p><strong>Table D2. Planned D diagnostics.</strong> Because the law is
-known exactly, most are exact likelihood checks rather than comparisons
-between two sets of samples. All are scored against the reference with
-finite-sample floors.</p>
+<p>The core total is about 13.5–14.5 GPU-hours, scaled from C. The E0-D
+profile sets the real budget before E1-D is submitted.</p>
+<p><strong>Ways of handling the generated past (E3).</strong></p>
+<ul>
+<li><strong>Primary:</strong>
+<ul>
+<li>report it as exact;</li>
+<li>report a fixed level tuned on held-out data (C&#39;s fix; a &quot;shifted
+timestep&quot; in the literature);</li>
+<li>report the level given by the no-tuning rule.</li>
+</ul></li>
+<li><strong>Secondary:</strong>
+<ul>
+<li>add real noise and report it, as cascaded diffusion models do
+(predicted to need about half the variance);</li>
+<li>a per-row level from the exact law, an upper bound on a learned
+noise estimator;</li>
+<li>the tuned level followed by one final correction call;</li>
+<li>separate levels for the decision step and the motion step.</li>
+</ul></li>
+<li><strong>Exploratory:</strong>
+<ul>
+<li>history guidance, which mixes the outputs for exact and noisy
+history;</li>
+<li>history annealing.</li>
+</ul></li>
+</ul>
+<p><strong>The oracle ladder (E1a).</strong> A 2×2 design:</p>
+<ul>
+<li>the step uses {only the mean, the mean and the correct spread};</li>
+<li>for {the whole two-branch mixture, one branch drawn by its
+weight};</li>
+<li>plus the exact sampler.</li>
+</ul>
+<p>It tells us whether a covariance correction is enough, or whether the
+step has to pick a branch (a mixture kernel). Inside a branch D is
+Gaussian except for the probit tilt. So &quot;one branch, with spread&quot;
+against the exact sampler isolates the tilt alone.</p>
+<p><strong>Table D2. Planned D diagnostics.</strong> The law is known
+exactly, so most are exact likelihood checks. All are scored against the
+reference with finite-sample floors. They come in three groups.</p>
 <table>
 <thead>
 <tr>
+<th>Group</th>
 <th>Diagnostic</th>
 <th>What it checks</th>
-<th>How to interpret it</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Decision calibration</td>
-<td>The true probability of each generated event, given the generated
-past, against how often it occurs</td>
-<td>Match the law. Too often near 0 or 1 means over-confident
-decisions.</td>
+<td>Per-row consistency</td>
+<td>Decision consistency</td>
+<td>Each event against its true probability given the full generated
+past. This is the analogue of C&#39;s validity: it rewards reading the past
+as exact</td>
 </tr>
 <tr>
-<td>Motion log-likelihood under the law</td>
-<td>The exact log-density of the generated motion given its past and
-events</td>
-<td>Match the reference. Higher means motion too concentrated (the
-average step); lower means too noisy.</td>
-</tr>
-<tr>
+<td></td>
 <td>Motion–decision agreement</td>
 <td>Whether the motion says one outcome while the event says the
 other</td>
-<td>Share of rows with a clear mismatch; target as in the
-reference.</td>
 </tr>
 <tr>
+<td></td>
+<td>Boundary continuity</td>
+<td>Whether the next block starts consistently with the generated
+past</td>
+</tr>
+<tr>
+<td>Whole-dataset fidelity</td>
+<td><strong>Decision calibration given the earlier past</strong></td>
+<td>Each event against its true probability given the past
+<em>before</em> its block. Primary for E3, because it judges the
+combined &quot;move, then decide&quot; step</td>
+</tr>
+<tr>
+<td></td>
+<td>Decision rates and sequences</td>
+<td>Event rates per previous outcome; error in the mix of whole event
+sequences</td>
+</tr>
+<tr>
+<td></td>
+<td>Exact log-likelihood</td>
+<td>Too high means motion too concentrated (the average step); the far
+tails count out-of-support and too-typical rows</td>
+</tr>
+<tr>
+<td></td>
 <td>Branch averaging</td>
-<td>Share of rows whose motion sits between the two futures</td>
-<td>The reference has none, so any excess is blending.</td>
+<td>Share of rows whose motion sits between the two futures (reference:
+none)</td>
 </tr>
 <tr>
-<td>Decision-sequence TV</td>
-<td>Error in the mix of whole event sequences</td>
-<td>Lower is better; the analogue of B&#39;s whole-vector agreement.</td>
-</tr>
-<tr>
-<td>Horizon drift</td>
-<td>Every metric by event index</td>
-<td>Growth with the index means errors accumulate.</td>
-</tr>
-<tr>
+<td></td>
 <td>Interventional response</td>
 <td>Force an event, generate the rest, compare with the law</td>
-<td>Tests whether the model has the right effect of a decision.</td>
 </tr>
 <tr>
-<td>Cost</td>
-<td>Network calls and wall-clock time per 1,000 rows</td>
-<td>Comparisons are at matched calls.</td>
+<td>How the history is wrong</td>
+<td>Spread along the decision axis, and of the boundary velocity</td>
+<td>Too little spread (below 1) or too much (above 1); the input to the
+no-tuning rule</td>
+</tr>
+<tr>
+<td>Always</td>
+<td>Horizon drift; cost</td>
+<td>Every metric by event index; network calls and wall-clock time</td>
 </tr>
 </tbody>
 </table>
 <h3 id="what-each-outcome-would-mean">What each outcome would mean</h3>
+<p>Four primary hypotheses are fixed in the research log, with numbers,
+before their data exist. Everything else is a secondary prediction or
+labelled exploratory.</p>
 <table>
 <thead>
 <tr>
@@ -1593,38 +1808,51 @@ reference.</td>
 <tbody>
 <tr>
 <td>G0-D</td>
-<td>The perfect sampler matches the data everywhere</td>
+<td>The perfect sampler matches the data everywhere; the four exactness
+checks pass</td>
 <td>Every later deficit belongs to a denoiser</td>
 <td>A code bug, not a finding</td>
 </tr>
 <tr>
-<td>E1-D, average step</td>
+<td>E1a (H1)</td>
 <td>At few steps the average predictor blends futures and is too
-concentrated; this fades with more steps; the perfect sampler shows
-neither</td>
-<td>The average-step failure extends to sequences</td>
-<td>The average-step problem is weaker in sequences</td>
+concentrated; this fades with more steps. Correct spread alone does not
+stop the blending; drawing a branch does</td>
+<td>The average-step failure extends to sequences, and a mixture kernel
+is the needed fix</td>
+<td>If correct spread is enough, a covariance correction is the cheaper
+direction</td>
 </tr>
 <tr>
-<td>E1-D, learned</td>
+<td>E1-D (H2)</td>
 <td>The learned model keeps as much spread as the average predictor, as
 in C</td>
 <td>The remaining problem is the average step itself</td>
 <td>A learned shortfall specific to sequences</td>
 </tr>
 <tr>
-<td>E3-D</td>
-<td>A tuned noise level for generated history helps little at τ = 0.25
-and clearly at τ = 0.05</td>
-<td>C&#39;s lesson becomes a general rule, tied to how sharply decisions
-depend on the motion</td>
-<td>No gain even at τ = 0.05 means C&#39;s effect came from its data
-fingerprint</td>
+<td>E3a</td>
+<td>The derivation holds exactly: no gain with perfect-sampler history;
+a gain of the predicted size with average-predictor history</td>
+<td>E3b&#39;s numbers follow</td>
+<td>An error to fix before E3b</td>
 </tr>
 <tr>
-<td>E2-D</td>
+<td>E3b (H3)</td>
+<td>A reported level helps the learned model only where its history has
+too little spread; the tuned level matches the rule; the gain is clear
+at τ = 0.05 and small at τ = 0.25; per-row consistency pays for it</td>
+<td>C&#39;s lesson becomes a rule tied to history spread and decision
+sharpness</td>
+<td>No gain despite too little spread: the model ignores the reported
+level. A gain despite enough spread: the model reads a fingerprint, as
+in C</td>
+</tr>
+<tr>
+<td>E2-D (H4)</td>
 <td>Step-by-step errors grow with sequence length when history is read
-as exact; joint errors do not grow but are higher per event</td>
+as exact, less with the selected level; joint errors do not grow but are
+higher per event</td>
 <td>The cost-aware choice depends on sequence length</td>
 <td>Report whichever sampler wins at matched cost</td>
 </tr>
@@ -1643,28 +1871,32 @@ about 1 point, as in C</td>
 </tr>
 </tbody>
 </table>
-<p>All predictions and verdict rules are written in the research log,
-with numbers, before any model is trained, and anything tuned is tuned
-on held-out data. D can show whether the average-step problem and the
-generated-history problem are general across static and sequential data.
-It cannot show generality beyond linear dynamics with probit decisions,
+<p>Anything tuned is tuned on held-out data. D can show whether the
+average-step problem and the generated-history problem are general
+across static and sequential data, and which correction each needs. It
+cannot show generality beyond linear dynamics with probit decisions,
 which were chosen so that the oracles are exact. Full details are in the
 <a href="DATASET_D_PLAN.md">D plan</a>.</p>
 <h2 id="decisions-for-discussion">Decisions for discussion</h2>
 <ol type="1">
-<li><strong>Keep two research threads.</strong> The first is keeping the
-full spread when each step predicts an average (P1). The second, new
-from C, is passing uncertainty correctly between the two data types when
-one is conditioned on a generated value of the other (P6). D tests the
-second most directly.</li>
-<li><strong>Start D with its infrastructure check:</strong> exact
-oracles, finite-sample floors and a short training pilot, about 1–2
-GPU-hours, before any full training.</li>
+<li><strong>Keep two research threads, now positioned against the
+literature.</strong> The first is keeping the right spread when each
+step predicts an average (P1). Its mechanism is known; the open part is
+few-step steps for branched, coupled label–value posteriors. The second
+is passing uncertainty correctly when one data type is conditioned on a
+generated value of the other (P6). It is known within one data type; the
+open part is the cross-modal rule and its dependence on decision
+sharpness. D tests both, and the second most directly.</li>
+<li><strong>Start D with its infrastructure check and the oracle-only
+experiments:</strong> exact oracles, floors, the gate, the sensitivity
+analysis, the ladder, the order map and the oracle noise-level design.
+That is about 1.5–2.5 GPU-hours before any full training.</li>
 <li><strong>Keep C&#39;s process for D:</strong> numbers written down before
 data, three plus three seeds, floors for every metric, tuning only on
 held-out data, and an independent review before the report.</li>
-<li><strong>Defer the literature review until D is finished,</strong>
-then position P1 and P6 against existing work.</li>
+<li><strong>Choose the thesis direction after D,</strong> on its
+evidence: mixture or covariance kernels for P1 (from the ladder), and a
+calibrated, cross-modal noise-level rule for P6 (from E3).</li>
 </ol>
 <h2 id="appendix-a-additional-evidence-for-dataset-a">Appendix A:
 Additional evidence for Dataset A</h2>
@@ -2474,7 +2706,14 @@ audits, the <a href="DATASET_C_INDEPENDENT_REVIEW.md">independent
 verification</a> and the external reads.</li>
 <li>Dataset D: <a href="DATASET_D_SPEC.md">specification</a> (§9 binding
 rules, §10 implemented law), <a href="DATASET_D_DATA_REPORT.md">data
-report</a> (Figures D1 and D2 are its figures 47 and 42) and <a href="DATASET_D_PLAN.md">plan</a>. No D model has been trained.</li>
+report</a> (Figures D1 and D2 are its figures 47 and 42) and <a href="DATASET_D_PLAN.md">plan</a> (second revision, 22 November 2026;
+research log <code>PLAN-20261122-D-REV2</code>). No D model has been
+trained.</li>
+<li>Literature review: <a href="claude_deep_research.md">Claude deep
+research</a> and <a href="Neon_deep_research.md">Neon deep research</a>.
+The variance figures quoted in &quot;What the literature review changed&quot; come
+from a closed-form calculation with this repository&#39;s schedule, recorded
+in the research log entry above.</li>
 </ul>
 <p>Original experiment figures retain their original identifiers inside
 the images. This document uses A1–A4, B1–B8, C1–C7, and D1–D2 to
